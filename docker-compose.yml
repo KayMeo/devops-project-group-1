@@ -37,24 +37,46 @@
 #      retries: 5
 # ===========================================
 
+
 version: '3.8'
 
 services:
-  # STUDENT TODO: Define frontend service
+ 
   frontend:
     build: ./frontend
-    # TODO: Add ports, depends_on
+    ports:
+      - "3000:3000"
+    depends_on:
+      - backend
 
-  # STUDENT TODO: Define backend service
   backend:
     build: ./backend
-    # TODO: Add ports, environment, depends_on, healthcheck
+    ports:
+      - "8080:8080"
+    environment:
+      - DB_HOST=postgres
+      - DB_USER=postgres
+      - DB_PASSWORD=mypass
+      - DB_NAME=tododb
+    depends_on:
+      postgres:
+        condition: service_healthy
 
-  # STUDENT TODO: Define postgres service
   postgres:
     image: postgres:15-alpine
-    # TODO: Add environment, ports, volumes, healthcheck
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=mypass
+      - POSTGRES_DB=tododb
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
 
-# STUDENT TODO: Define named volumes
 volumes:
   postgres_data:

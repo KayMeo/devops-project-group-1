@@ -13,7 +13,7 @@ const pool = new Pool({
    user: process.env.DB_USER || 'postgres',
    host: process.env.DB_HOST || 'localhost',
    database: process.env.DB_NAME || 'tododb',
-   password: process.env.DB_PASSWORD || 'wrongpassword',
+   password: process.env.DB_PASSWORD || 'mypass',
    port: process.env.DB_PORT || 5432,
 });
 
@@ -35,6 +35,9 @@ app.get('/api/todos', async (req, res) => {
 // STUDENT TODO: Add validation to reject empty title
 app.post('/api/todos', async (req, res) => {
    try {
+      if (!title || title.trim() === '') {
+          return res.status(400).json({ error: 'Title is required' }); }
+          
       const { title, completed = false } = req.body;
 
       // STUDENT FIX: Add validation here!
