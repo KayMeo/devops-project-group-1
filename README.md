@@ -1,5 +1,7 @@
 # DevOps Base Project
 
+Pham Tri Kien
+
 ## Project Overview
 
 This is a simple Todo application with:
