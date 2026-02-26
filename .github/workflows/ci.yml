@@ -17,7 +17,11 @@ jobs:
           POSTGRES_PASSWORD: pass
           POSTGRES_DB: devops_db
         ports: [5432:5432]
-        options: --health-cmd pg_isready --health-interval 10s
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
@@ -25,11 +29,11 @@ jobs:
           node-version: '20'
       - name: Run Tests
         working-directory: ./backend
+        env:
+          DATABASE_URL: postgres://user:pass@localhost:5432/devops_db
         run: |
           npm ci
           npm test
-        env:
-          DATABASE_URL: postgres://user:pass@localhost:5432/devops_db
 
   build-and-push:
     needs: test
