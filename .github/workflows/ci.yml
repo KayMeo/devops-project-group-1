@@ -31,7 +31,15 @@ jobs:
       - name: Initialize Database
         run: |
           sudo apt-get update && sudo apt-get install -y postgresql-client
-          psql "postgres://user:pass@localhost:5432/devops_db" -f ./database/database.sql
+          SQL_PATH=$(find . -name "database.sql" -print -quit)
+          echo "Found SQL file at: $SQL_PATH"
+          
+          if [ -z "$SQL_PATH" ]; then
+            echo "ERROR: database.sql not found!"
+            exit 1
+          fi
+
+          psql "postgres://user:pass@localhost:5432/devops_db" -f "$SQL_PATH"
 
       - name: Run Tests
         working-directory: ./backend
