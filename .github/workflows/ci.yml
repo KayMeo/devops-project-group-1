@@ -27,6 +27,22 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: '20'
+          
+      - name: Initialize OG Database Schema
+        run: |
+          docker run --net host postgres:15-alpine psql postgres://user:pass@localhost:5432/devops_db -c "
+          CREATE TABLE IF NOT EXISTS todos (
+            id SERIAL PRIMARY KEY,
+            title VARCHAR(255) NOT NULL,
+            completed BOOLEAN DEFAULT false,
+            created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+          );
+          INSERT INTO todos (title, completed) VALUES
+            ('Learn Docker', false),
+            ('Setup CI/CD', true),
+            ('Deploy to production', false)
+          ON CONFLICT DO NOTHING;"
+
       - name: Run Tests
         working-directory: ./backend
         env:
