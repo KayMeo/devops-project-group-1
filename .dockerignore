@@ -1,0 +1,36 @@
+# Dependencies
+# Never copy the node_modules directory, as it can be very large and is not needed for building the Docker image.
+node_modules
+npm-debug.log
+
+# Build output
+# Prevent old build artifacts from being included in the Docker image.
+dist
+build 
+out
+.next
+
+# Environment & Secrets
+# Do not include environment variable files or secrets in the Docker image.
+.env
+.env.local
+.env.test
+.env.production
+.env*.local
+
+# Version control
+# The docker image does not need Git history 
+.git 
+.gitignore
+
+# OS & IDE files
+# Ignore system files and IDE configurations that are not relevant to the Docker image.
+.vscode
+.idea
+.DS_Store
+Thumbs.db
+
+# Docker
+
+DOCKERFILE
+docker-compose.yml
