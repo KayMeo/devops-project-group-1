@@ -31,7 +31,7 @@ jobs:
       - name: Initialize Database
         run: |
           sudo apt-get update && sudo apt-get install -y postgresql-client
-          psql "postgres://user:pass@localhost:5432/devops_db" -f ./database.sql
+          psql "postgres://user:pass@localhost:5432/devops_db" -f ./database/database.sql
 
       - name: Run Tests
         working-directory: ./backend
