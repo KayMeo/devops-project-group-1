@@ -28,18 +28,17 @@ jobs:
         with:
           node-version: '20'
 
-      - name: Initialize Database
+      - name: Initialize Database from SQL file
         run: |
           sudo apt-get update && sudo apt-get install -y postgresql-client
-          SQL_PATH=$(find . -name "database.sql" -print -quit)
-          echo "Found SQL file at: $SQL_PATH"
           
-          if [ -z "$SQL_PATH" ]; then
-            echo "ERROR: database.sql not found!"
-            exit 1
-          fi
-
-          psql "postgres://user:pass@localhost:5432/devops_db" -f "$SQL_PATH"
+          psql "postgres://user:pass@localhost:5432/devops_db" -c "
+          CREATE TABLE IF NOT EXISTS todos (
+            id SERIAL PRIMARY KEY,
+            title VARCHAR(255) NOT NULL,
+            completed BOOLEAN DEFAULT false,
+            created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+          );"
 
       - name: Run Tests
         working-directory: ./backend
