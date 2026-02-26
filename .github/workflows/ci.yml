@@ -28,9 +28,13 @@ jobs:
         with:
           node-version: '20'
 
-      - name: Initialize Database from SQL file
+      - name: Initialize Database
         run: |
-          sudo apt-get update && sudo apt-get install -y postgresql-client
+          set -e
+          until pg_isready -h localhost -p 5432 -U user; do
+            echo "Still waiting..."
+            sleep 1
+          done
           
           psql "postgres://user:pass@localhost:5432/devops_db" -c "
           CREATE TABLE IF NOT EXISTS todos (
@@ -39,6 +43,8 @@ jobs:
             completed BOOLEAN DEFAULT false,
             created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
           );"
+
+          psql "postgres://user:pass@localhost:5432/devops_db" -c "\dt todos"
 
       - name: Run Tests
         working-directory: ./backend
