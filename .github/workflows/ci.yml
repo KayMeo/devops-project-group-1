@@ -31,11 +31,12 @@ jobs:
       - name: Initialize Database
         run: |
           set -e
+          sudo apt-get install -y postgresql-client
           until pg_isready -h localhost -p 5432 -U user; do
             echo "Still waiting..."
             sleep 1
           done
-          
+
           psql "postgres://user:pass@localhost:5432/devops_db" -c "
           CREATE TABLE IF NOT EXISTS todos (
             id SERIAL PRIMARY KEY,
