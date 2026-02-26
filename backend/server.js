@@ -10,10 +10,10 @@ app.use(express.json());
 
 // BUG #1: Wrong default password - doesn't match docker-compose!
 const pool = new Pool({
-   user: process.env.DB_USER || 'mydb',
-   host: process.env.DB_HOST || 'postgres',
-   database: process.env.DB_NAME || 'tododb',
-   password: process.env.DB_PASSWORD || 'mypass',
+   user: process.env.DB_USER || 'user',     
+   host: process.env.DB_HOST || 'localhost',
+   database: process.env.DB_NAME || 'devops_db',
+   password: process.env.DB_PASSWORD || 'pass', 
    port: process.env.DB_PORT || 5432,
 });
 
