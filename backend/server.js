@@ -22,7 +22,14 @@ app.get('/health', (req, res) => {
 });
 
 // GET todos
-
+app.get('/api/todos', async (req, res) => {
+   try {
+      const result = await pool.query('SELECT * FROM todos ORDER BY id');
+      res.json(result.rows);
+   } catch (err) {
+      res.status(500).json({ error: err.message });
+   }
+});
 
 // BUG #2: Missing validation - will cause test to fail!
 // STUDENT TODO: Add validation to reject empty title
