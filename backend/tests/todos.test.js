@@ -82,3 +82,7 @@ describe('Todos API', () => {
       expect(updateRes.body.completed).toBe(true);
    });
 });
+
+afterAll(async () => {
+  await pool.end();
+});
