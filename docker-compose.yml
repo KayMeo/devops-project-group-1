@@ -78,7 +78,7 @@ services:
     environment:
       - POSTGRES_DB=tododb
       - POSTGRES_USER=mydb
-      - POSTGRES_PASSWORD=mypass
+      - POSTGRES_PASSWORD=pass
     ports:
       - "5432:5432"
     volumes:
