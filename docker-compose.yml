@@ -76,8 +76,8 @@ services:
     image: postgres:15-alpine
     # TODO: Add environment, ports, volumes, healthcheck
     environment:
-      - POSTGRES_DB=tododb
-      - POSTGRES_USER=mydb
+      - POSTGRES_DB=devops_db
+      - POSTGRES_USER=user
       - POSTGRES_PASSWORD=pass
     ports:
       - "5432:5432"
@@ -85,7 +85,7 @@ services:
       - postgres_data:/var/lib/postgresql/data
       - ./database/database.sql:/docker-entrypoint-initdb.d/init.sql
     healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U mydb -d tododb"]
+      test: ["CMD-SHELL", "pg_isready -U user -d devops_db "]
       interval: 10s
       timeout: 5s
       retries: 5
