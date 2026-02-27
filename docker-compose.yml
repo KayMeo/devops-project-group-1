@@ -43,6 +43,7 @@ services:
   # STUDENT TODO: Define frontend service
   frontend:
     build: ./frontend
+
     ports:
       - "3000:3000"
     depends_on:
@@ -71,10 +72,19 @@ services:
       start_period: 10s
 
 
+    # TODO: Add ports, depends_on
+
+  # STUDENT TODO: Define backend service
+  backend:
+    build: ./backend
+    # TODO: Add ports, environment, depends_on, healthcheck
+
+
   # STUDENT TODO: Define postgres service
   postgres:
     image: postgres:15-alpine
     # TODO: Add environment, ports, volumes, healthcheck
+
     environment:
       - POSTGRES_DB=devops_db
       - POSTGRES_USER=user
@@ -90,7 +100,10 @@ services:
       timeout: 5s
       retries: 5
 
+
 # STUDENT TODO: Define named volumes
 volumes:
   postgres_data:
+
   
+
